@@ -108,33 +108,13 @@ textarea:focus,input[type=text]:focus{border-color:rgba(201,169,110,0.35);}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 .ai-period-btn{padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:var(--surface2);color:var(--muted);font-size:12px;cursor:pointer;transition:all 0.15s;font-family:'DM Sans',sans-serif;user-select:none;}
 .ai-period-btn.on{background:rgba(201,169,110,0.12);border-color:rgba(201,169,110,0.4);color:var(--gold2);}
-/* PASSWORD SCREEN */
-#pwscreen{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:500;padding:32px;}
-.pw-title{font-family:'Cormorant Garamond',serif;font-size:36px;color:var(--gold2);margin-bottom:8px;}
-.pw-sub{font-size:14px;color:var(--muted);margin-bottom:32px;}
-.pw-input{width:100%;max-width:280px;text-align:center;font-size:18px;letter-spacing:0.3em;padding:14px;border-radius:14px;background:var(--surface);border:1px solid var(--border);color:var(--text);outline:none;font-family:'DM Sans',sans-serif;}
-.pw-btn{margin-top:14px;width:100%;max-width:280px;padding:14px;border-radius:14px;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;color:#0a0a0f;font-size:15px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;letter-spacing:0.05em;}
-.pw-err{font-size:13px;color:var(--danger);margin-top:10px;height:18px;}
+
 .gap{height:12px;}
 </style>
 </head>
 <body>
 
-<!-- PASSWORD SCREEN -->
-<div id="pwscreen">
-  <div style="font-size:48px;margin-bottom:16px">📓</div>
-  <div class="pw-title">Mein Journal</div>
-  <div class="pw-sub">Dein persönlicher Begleiter</div>
-  <input class="pw-input" type="password" id="pw-input" placeholder="••••••" onkeydown="if(event.key==='Enter')checkPW()">
-  <button class="pw-btn" onclick="checkPW()">Öffnen</button>
-  <div class="pw-err" id="pw-err"></div>
-  <div style="font-size:11px;color:var(--muted);margin-top:24px;text-align:center;max-width:280px;line-height:1.6">
-    Standardpasswort: <strong style="color:var(--gold2)">journal</strong><br>
-    Änderbar in den Einstellungen
-  </div>
-</div>
-
-<div id="app" style="display:none">
+<div id="app">
   <div class="toast" id="toast"></div>
   <div id="content">
     <div id="v-home"></div>
@@ -154,21 +134,7 @@ textarea:focus,input[type=text]:focus{border-color:rgba(201,169,110,0.35);}
 </div>
 
 <script>
-// ── PASSWORD ──────────────────────────────────────────────────
-const DEFAULT_PW = 'journal';
-function checkPW() {
-  const val = document.getElementById('pw-input').value;
-  const stored = localStorage.getItem('j_pw') || DEFAULT_PW;
-  if(val === stored) {
-    document.getElementById('pwscreen').style.display = 'none';
-    document.getElementById('app').style.display = 'flex';
-    go('home');
-  } else {
-    document.getElementById('pw-err').textContent = 'Falsches Passwort';
-    document.getElementById('pw-input').value = '';
-    setTimeout(() => document.getElementById('pw-err').textContent = '', 2000);
-  }
-}
+
 
 // ── STATE ─────────────────────────────────────────────────────
 let mData = {}, aData = {};
@@ -744,18 +710,7 @@ function rSettings() {
       <div class="hdr-title">⚙️ Einstellungen</div>
       <div class="hdr-sub">Export & Sicherheit</div>
     </div>
-    <div class="card">
-      <div class="ct">Passwort ändern</div>
-      <div class="fg">
-        <label class="fl">Neues Passwort</label>
-        <input type="password" id="pw-new" placeholder="Neues Passwort eingeben">
-      </div>
-      <div class="fg">
-        <label class="fl">Bestätigen</label>
-        <input type="password" id="pw-confirm" placeholder="Passwort wiederholen">
-      </div>
-      <button class="sbtn sbtn-m" onclick="changePW()" style="margin:0">Passwort speichern</button>
-    </div>
+
     <div class="card">
       <div class="ct">Daten exportieren</div>
       <div style="font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.6">
@@ -828,7 +783,7 @@ function calcStreak(entries) {
 }
 
 // ── INIT ──────────────────────────────────────────────────────
-document.getElementById('pw-input').focus();
+go('home');
 </script>
 </body>
 </html>
